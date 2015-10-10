@@ -1,7 +1,10 @@
 package com.joaopires.minas;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -63,6 +66,29 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void minas(){
+        for(i=0; i < minasPosicoes.length; i++){
+
+            minasPosicoes[i] = ran.nextInt(2); //Número random entre 0 e 1
+        }
+    }
+
+    public void recomeçar(){
+
+        for (i = 0; i < bArray.length; i++){
+
+            bArray[i].setText("");
+            bCarregados[i] = 0;
+        }
+
+        minas();
+        atualCarregados = 0;
+        atulaMina = 0;
+
+        t.setText("");
+        w.setText("Recomeçado!");
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,11 +122,43 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        for(i=0; i < minasPosicoes.length; i++){
+        //Contruir o vetor de minas
+        minas();
 
-            minasPosicoes[i] = ran.nextInt(2); //Número random entre 0 e 1
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
         }
 
+        if (id == R.id.recomecar){
+            //Context context = getApplicationContext();
+            //CharSequence text = "Recomeçar o jogo.";
+            //int duration = Toast.LENGTH_SHORT;
+            //Toast toastRecomecar = Toast.makeText(context, text, duration);
 
+            recomeçar();
+
+            Toast toastRecomecar = Toast.makeText(MainActivity.this, "Recomeçado", Toast.LENGTH_SHORT);
+            toastRecomecar.show();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
